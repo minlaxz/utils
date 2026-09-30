@@ -1,0 +1,10 @@
+[Unit]
+Description=Run myaddr update hourly
+
+[Timer]
+OnBootSec=1m
+OnUnitActiveSec=1h
+Persistent=true
+
+[Install]
+WantedBy=timers.target

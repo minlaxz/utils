@@ -1,0 +1,7 @@
+[Unit]
+Description=Sync Access Token from Source DB into auth.json
+
+[Service]
+Type=oneshot
+EnvironmentFile=%h/.config/db-to-file/env
+ExecStart=/usr/bin/env python3 %h/.local/lib/db-to-file/extract.py

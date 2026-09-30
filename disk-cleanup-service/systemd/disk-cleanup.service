@@ -1,0 +1,6 @@
+[Unit]
+Description=Delete old files from directories listed in ~/.config/disk-cleanup/.env
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/disk-cleanup.sh %h/.config/disk-cleanup/.env
