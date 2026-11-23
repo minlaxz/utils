@@ -1,7 +1,9 @@
 [Unit]
 Description=Sync Access Token from Source DB into auth.json
+After=docker.service
 
 [Service]
 Type=oneshot
 EnvironmentFile=%h/.config/db-to-file/env
-ExecStart=/usr/bin/env python3 %h/.local/lib/db-to-file/extract.py
+# Rootless Docker: run inside its user namespace so files owned by container subuids are readable.
+ExecStart=/bin/sh -c 'p=%t/docker.pid; if [ -f "$$p" ]; then exec nsenter -U --preserve-credentials -t "$$(cat "$$p")" python3 %h/.local/lib/db-to-file/extract.py; else exec python3 %h/.local/lib/db-to-file/extract.py; fi'

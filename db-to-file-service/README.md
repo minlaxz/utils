@@ -9,6 +9,8 @@ cp .env.example .env    # set DB_EMAIL (and DB_PATH if not ~/data.sqlite)
 ./install.sh
 ```
 
+Rootless Docker: if `$XDG_RUNTIME_DIR/docker.pid` exists, the service runs `extract.py` inside Docker's user namespace (`nsenter -U`). There it can read a DB owned by container subuids, and files it writes stay owned by you. If Docker is down at run time, the run falls back to plain mode and fails on the DB; the next run retries. Inside the namespace `ssh` uses `/root/.ssh`, so `COPY_TO_SSH` does not work on such hosts.
+
 `.env` is gitignored. The installer copies it to `~/.config/db-to-file/env` (mode 600) on first run only; edit that file to change settings later, then `systemctl --user restart db-to-file.service`.
 
 ## Operate
